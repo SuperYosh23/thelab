@@ -1,607 +1,308 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <title>The Lab | SuperYosh23</title>
-
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/5671/5671391.png">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
     
-
     <style>
-
         :root {
-
             --background-start: #0f1f0f;
-
             --background-end: #1a2a1a;
-
             --glass-bg: rgba(255, 255, 255, 0.08);
-
             --text-color: #e0e0e0;
-
             --accent-color: #32CD32;
-
             --font-stack: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-
         }
-
-
 
         /* General Styles */
-
         body {
-
             margin: 0;
-
             font-family: var(--font-stack);
-
             color: var(--text-color);
-
             min-height: 100vh;
-
             overflow-x: hidden;
-
             background: linear-gradient(120deg, var(--background-start), var(--background-end));
-
             background-size: 400% 400%;
-
             animation: gradientShift 15s infinite alternate ease-in-out;
-
             scroll-behavior: smooth;
-
         }
-
-
 
         @keyframes gradientShift {
-
             0% { background-position: 0% 50%; }
-
             100% { background-position: 100% 50%; }
-
         }
-
-
 
         /* Glassmorphism Panel Base */
-
         .glass-panel {
-
             background: var(--glass-bg);
-
             border-radius: 16px;
-
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-
             backdrop-filter: blur(8px);
-
             -webkit-backdrop-filter: blur(8px);
-
             border: 1px solid rgba(255, 255, 255, 0.15);
-
             padding: 25px;
-
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-
         }
-
         .glass-panel:hover {
-
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25);
-
             transform: translateY(-2px);
-
         }
-
-
 
         /* Nav */
-
         nav {
-
             display: flex;
-
             justify-content: center;
-
             align-items: center;
-
             background-color: rgba(0, 0, 0, 0.4);
-
             padding: 0.8rem;
-
             width: 100%;
-
             position: sticky;
-
             top: 0;
-
             z-index: 1000;
-
         }
-
-
 
         nav a {
-
             color: var(--text-color);
-
             text-decoration: none;
-
             font-weight: bold;
-
             font-size: 1.1em;
-
             display: flex;
-
             align-items: center;
-
             gap: 10px;
-
             transition: color 0.3s ease;
-
         }
-
-
 
         nav a:hover {
-
             color: var(--accent-color);
-
         }
-
-
 
         /* Dashboard Grid Layout */
-
         main.lab-grid {
-
             display: grid;
-
             grid-template-columns: repeat(3, 1fr); /* 3 Columns */
-
             gap: 20px;
-
             max-width: 1200px;
-
             margin: 30px auto;
-
             padding: 0 20px;
-
         }
-
-
 
         /* Typography */
-
         h1 {
-
             font-size: 2.8em; color: white;
-
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-
             margin: 0 0 10px 0;
-
         }
-
         h2 {
-
             font-size: 1.6em; color: var(--accent-color);
-
             border-bottom: 2px solid rgba(50, 205, 50, 0.3);
-
             padding-bottom: 10px; margin-top: 0;
-
         }
-
         h3 {
-
             margin-top: 0;
-
             color: white;
-
         }
-
         p {
-
             line-height: 1.6;
-
             margin-bottom: 15px;
-
         }
-
-
 
         /* Grid Item Specializations */
-
         
-
         /* Header spans 2 columns */
-
         .grid-item.header {
-
             grid-column: span 2;
-
         }
-
-
 
         /* About spans 1 column */
-
         .grid-item.about {
-
             grid-column: span 1;
-
         }
-
-
 
         /* Projects are standard cards (1 column each) */
-
         .grid-item.project-card {
-
             grid-column: span 1;
-
             display: flex;
-
             flex-direction: column;
-
         }
 
-
-
+        /* --- THE IMAGE FIX IS HERE --- */
         .project-card img {
-
             width: 100%;
-
             height: 200px;
-
-            object-fit: cover;
-
+            /* CHANGED from cover to contain */
+            object-fit: contain; 
+            /* Added background so empty space looks intentional */
+            background-color: rgba(0, 0, 0, 0.3); 
             border-radius: 8px;
-
             margin-bottom: 15px;
-
             border: 1px solid rgba(255,255,255,0.1);
-
         }
-
-
 
         /* Downloads spans 3 columns (full width) */
-
         .grid-item.downloads {
-
             grid-column: span 3;
-
             margin-top: 20px;
-
         }
-
-
 
         /* Downloads List Styling */
-
         .download-list {
-
             list-style: none;
-
             padding: 0;
-
             display: grid;
-
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-
             gap: 15px;
-
         }
-
-
 
         .download-btn {
-
             display: block;
-
             background: rgba(0, 0, 0, 0.3);
-
             padding: 15px;
-
             border-radius: 8px;
-
             text-decoration: none;
-
             color: var(--text-color);
-
             border: 1px solid rgba(50, 205, 50, 0.2);
-
             transition: all 0.3s ease;
-
         }
-
-
 
         .download-btn:hover {
-
             background: rgba(50, 205, 50, 0.1);
-
             border-color: var(--accent-color);
-
             transform: scale(1.02);
-
         }
-
-
 
         .download-btn strong {
-
             display: block;
-
             color: var(--accent-color);
-
             font-size: 1.1em;
-
             margin-bottom: 5px;
-
         }
-
-
 
         /* Footer */
-
         .grid-item.footer {
-
             grid-column: span 3;
-
             text-align: center;
-
             font-size: 0.9em;
-
             margin-top: 20px;
-
         }
-
-
 
         /* Fade Animation */
-
         .hidden {
-
             opacity: 0; transform: translateY(20px);
-
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-
         }
-
         .fade-in {
-
             opacity: 1 !important; transform: translateY(0) !important;
-
         }
-
-
 
         /* Responsive Breakpoints */
-
         @media (max-width: 900px) {
-
             main.lab-grid {
-
                 grid-template-columns: repeat(2, 1fr); /* 2 Cols on Tablet */
-
             }
-
             .grid-item.header { grid-column: span 2; }
-
             .grid-item.about { grid-column: span 2; }
-
             .grid-item.downloads { grid-column: span 2; }
-
             .grid-item.footer { grid-column: span 2; }
-
         }
-
-
 
         @media (max-width: 600px) {
-
             main.lab-grid {
-
                 grid-template-columns: 1fr; /* 1 Col on Mobile */
-
             }
-
             .grid-item.header, .grid-item.about, .grid-item.project-card, .grid-item.downloads, .grid-item.footer {
-
                 grid-column: span 1;
-
             }
-
             h1 { font-size: 2.2em; }
-
         }
-
     </style>
-
 </head>
-
 <body>
 
-
-
     <nav>
-
         <a href="https://superyosh23.neocities.org">
-
             <i class="fas fa-arrow-left"></i> Back to Main Site
-
         </a>
-
     </nav>
-
-
 
     <main class="lab-grid">
 
-
-
         <section class="grid-item glass-panel header hidden">
-
             <h1>The Lab</h1>
-
             <p>Hey, I’m SuperYosh23. This is where I document all the random crap i'm working on. I mess with old consoles, fix up old laptops, and push random stuff to do things it definitely wasn't designed to do.</p>
-
         </section>
-
-
 
         <section class="grid-item glass-panel about hidden">
-
             <h2>About The Lab</h2>
-
             <p>I’m just a random idiot who loves old and modern tech alike. This site is a collection of my current experiments.</p>
-
         </section>
 
-
-
         <article class="grid-item glass-panel project-card hidden">
-
             <img src="images/new-3ds-xl.jpg" alt="New Nintendo 3DS XL" />
-
             <h3>New Nintendo 3DS XL</h3>
-
             <p>My DSi broke, but this thing’s a beast. It's the portable i carry everywhere with me, and I’ve got it loaded with custom themes and homebrew apps.</p>
-
         </article>
 
-
-
         <article class="grid-item glass-panel project-card hidden">
-
             <img src="images/wii.jpg" alt="Modded Nintendo Wii" />
-
             <h3>Softmodded Wii</h3>
-
             <p>One of my favorite consoles. Fully softmodded with a dark mode theme, stuffed with homebrew, and used daily.</p>
-
         </article>
 
-
-
         <article class="grid-item glass-panel project-card hidden">
-
             <img src="images/dv7.jpg" alt="HP Pavilion dv7" />
-
             <h3>HP Pavilion dv7</h3>
-
             <p>Got this thing useable again after running Windows 7 for years. This old thing runs modern Minecraft at 60fps and serves as my primary testbench for random experiments.</p>
-
         </article>
-
-
 
         <article class="grid-item glass-panel project-card hidden">
-
             <img src="images/gnome-desktop.png" alt="Customized Desktop" />
-
             <h3>My Main Computer</h3>
-
             <p>The daily driver. I used to run Kubuntu, but compatibility headaches forced me to go back to Windows. Still heavily customized, though.</p>
-
         </article>
-
-
 
         <section class="grid-item glass-panel downloads hidden" id="downloads">
-
             <h2>Downloads</h2>
-
             <p>Tools, configs, and zip packs I use across my devices.</p>
-
             
-
             <div class="download-list">
-
                 <a href="downloads/3dhb.zip" class="download-btn" download>
-
                     <strong>3DS Homebrew Pack</strong>
-
                     Coming Soon
-
                 </a>
-
-
 
                 <a href="downloads/wpack.zip" class="download-btn" download>
-
                     <strong>Wii Homebrew Pack</strong>
-
                     Coming Soon
-
                 </a>
-
-
 
                 <a href="downloads/dapps.zip" class="download-btn" target="_blank">
-
                     <strong>Essential Desktop Apps</strong>
-
                     Coming Soon
-
                 </a>
-
             </div>
-
         </section>
 
-
-
         <footer class="grid-item glass-panel footer hidden">
-
-            <p>DISCLAIMER: This website was almost entirlely AI genarated.</p>
-
+            <p>DISCLAIMER: This website was almost entirely AI generated.</p>
         </footer>
-
-
 
     </main>
 
-
-
     <script>
-
         document.addEventListener("DOMContentLoaded", function() {
-
             const observer = new IntersectionObserver((entries) => {
-
                 entries.forEach(entry => {
-
                     if (entry.isIntersecting) {
-
                         entry.target.classList.add('fade-in');
-
                     }
-
                 });
-
             }, { threshold: 0.1 });
 
-
-
             document.querySelectorAll('.hidden').forEach(element => observer.observe(element));
-
         });
-
     </script>
-
 </body>
-
 </html>
